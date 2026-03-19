@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JC tech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #2c3e50; 
+            --accent: #FFFFFF; 
+            --dark-footer: #1a252f;
+            --light: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            background-color: #000000;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* HEADER */
+        header {
+            background: black;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            animation: fadeDown 1s ease;
+        }
+
+        .logo-main {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid var(--accent);
+            margin-bottom: 20px;
+            background: white;
+            transition: 0.4s;
+            object-fit: contain;
+        }
+
+        .logo-main:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            margin-top: -60px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            animation: fadeUp 1s ease;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 60px 0;
+        }
+
+        .service-item {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: 0.4s;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .service-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        /* BOTONES */
+        .btn-whatsapp {
+            display: inline-block;
+            background-color: #25d366;
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 25px;
+            margin-left: 5%;
+            transition: 0.3s;
+            width: 45%;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-whatsapp:hover {
+            transform: scale(1.05);
+            background-color: #128c7e;
+        }
+
+        .btn-drive{
+            display:inline-block;
+            margin-top:35px;
+            background: linear-gradient(135deg,#4285F4,#34A853);
+            color:white;
+            padding:16px 36px;
+            border-radius:40px;
+            text-decoration:none;
+            font-weight:bold;
+            font-size:1rem;
+            transition:0.3s;
+            box-shadow:0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .btn-drive:hover{
+            transform:translateY(-3px) scale(1.04);
+            box-shadow:0 10px 25px rgba(0,0,0,0.25);
+        }
+
+        /* GALERIA */
+        .gallery h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2em;
+            color: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+        }
+
+        #gallery img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1s ease;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        #gallery img.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #gallery img:hover {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--dark-footer);
+            color: white;
+            padding: 60px 20px 20px;
+            margin-top: 80px;
+            border-top: 4px solid var(--accent);
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h4 {
+            color: var(--accent);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 1.1em;
+        }
+
+        .footer-logo-container img {
+            width: 100px;
+            background: white;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #bdc3c7;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .social-pill {
+            display: inline-block;
+            background: rgba(255,255,255,0.08);
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-pill:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(230, 126, 34, 0.4);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.85em;
+            color: #7f8c8d;
+        }
+
+        /* ANIMACIONES */
+        @keyframes fadeUp {
+            from {opacity:0; transform:translateY(40px);}
+            to {opacity:1; transform:translateY(0);}
+        }
+
+        @keyframes fadeDown {
+            from {opacity:0; transform:translateY(-40px);}
+            to {opacity:1; transform:translateY(0);}
+        }
+
+        /* VISOR DE IMÁGENES */
+        #viewer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: 0.4s; z-index: 1000;
+        }
+
+        #viewer-img {
+            max-width: 90%; max-height: 85%;
+            border-radius: 8px;
+            transform: scale(0.8);
+            transition: 0.4s;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <img src="img/JC.png" class="logo-main" alt="Logo JC Tech">
+    <h1>Reparaciones de dispositivos móviles</h1>
+</header>
+
+<div class="container">
+    <section class="profile-card">
+        <h2>Servicios Profesionales</h2>
+        <p>Soluciones Garantizadas para dispositivos Android y iPhone con atención personalizada.</p>
+        <p><i class="fa-solid fa-location-dot"></i> <strong>Ubicación:</strong> Itauguá, Departamento Central</p>
+        <a href="https://wa.me/595985600342" class="btn-whatsapp">📲 Contactar por WhatsApp</a>
+    </section>
+
+    <div class="services-grid">
+        <div class="service-item">
+            <h3>Reparación de Dispositivos Android <i class="fa-brands fa-android"></i></h3>
+            <p>Cambio de pantalla, baterías, piezas, reparación de pines de carga, soldadura de botones, colocación de protectores y tapas traseras.</p>
+        </div>
+        <div class="service-item">
+            <h3>Reparación de Dispositivos Apple <i class="fa-brands fa-apple"></i></h3>
+            <p>Cambio de pantallas con IC original, baterías, protectores de pantalla y cámara, cambio de piezas Apple.</p>
+        </div>
+        <div class="service-item">
+            <h3>Reparaciones de software <i class="fa-solid fa-code"></i></h3>
+            <p>Actualización de software, configuración del sistema y reparación de fallas.</p>
+        </div>
+    </div>
+
+    <section class="gallery">
+        <h2><i class="fa-solid fa-briefcase"></i> Trabajos Realizados</h2>
+        <div class="gallery-grid" id="gallery"></div>
+        <div style="text-align:center; margin-top:40px;">
+            <a class="btn-drive" href="https://drive.google.com/drive/folders/1d4YrSLuY7FhhSxzJh6nZatXDnFUTU2cP" target="_blank">
+                📂 Ver Galería Completa en Drive
+            </a>
+        </div>
+    </section>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <div class="footer-logo-container">
+                <img src="img/JC.png" alt="JC Tech Logo">
+            </div>
+            <p style="color:#bdc3c7; line-height:1.6; font-size:0.95em;">
+                Servicio técnico garantizado y de calidad para los clientes del departamento central.
+            </p>
+        </div>
+
+        <div class="footer-section">
+            <h4>Contacto</h4>
+            <ul class="footer-links">
+                <li>📌 Itauguá, Paraguay</li>
+                <li>📞 <a href="tel:+595985600342">0985 600 342</a></li>
+                <li>📧 <a href="mailto:juanenmanuelcoronelgarcete7@gmail.com">Enviar Correo</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Síguenos</h4>
+            <p style="color: #bdc3c7; font-size:0.9em; margin-bottom:15px;">Mira los trabajos realizados:</p>
+            <a href="https://www.tiktok.com/@juanenmanuel.08" class="social-pill" target="_blank"><i class="fa-brands fa-tiktok"></i> TikTok: @juanenmanuel.08</a>
+            <br><br>
+            <a href="https://www.instagram.com/juanmanuel__8" class="social-pill" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram: @juanmanuel__8</a>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>&copy; 2026 JC Servicio Técnico - Profesionalismo a su servicio.</p>
+    </div>
+</footer>
+
+<div id="viewer">
+    <img id="viewer-img">
+</div>
+
+<script>
+const galeria = document.getElementById("gallery");
+const viewer = document.getElementById("viewer");
+const viewerImg = document.getElementById("viewer-img");
+
+// URL de tu JSON en GitHub
+const jsonURL = "https://raw.githubusercontent.com/juan2008py/Base_juanTech/Main/Trabajos.json";
+
+async function cargarImagenes() {
+    try {
+        const respuesta = await fetch(jsonURL);
+        const datos = await respuesta.json();
+
+        datos.forEach(item => {
+            const img = document.createElement("img");
+            img.src = item.imagen;
+            img.alt = "Trabajo realizado";
+            img.loading = "lazy";
+
+            img.addEventListener("click", () => {
+                viewer.style.opacity = "1";
+                viewer.style.pointerEvents = "auto";
+                viewerImg.src = item.imagen;
+                viewerImg.style.transform = "scale(1)";
+            });
+
+            galeria.appendChild(img);
+        });
+
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('#gallery img, .service-item').forEach(el => observer.observe(el));
+
+    } catch (error) {
+        console.error("Error al cargar imágenes desde JSON:", error);
+    }
+}
+
+cargarImagenes();
+
+// Cerrar visor
+viewer.addEventListener("click", () => {
+    viewer.style.opacity = "0";
+    viewer.style.pointerEvents = "none";
+    viewerImg.style.transform = "scale(0.8)";
+});
+</script>
+
+</body>
+</html>
