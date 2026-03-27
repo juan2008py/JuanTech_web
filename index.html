@@ -12,6 +12,7 @@
             --accent: #FFFFFF; 
             --dark-footer: #1a252f;
             --light: #ecf0f1;
+            
         }
 
         body {
@@ -281,12 +282,27 @@
             transition: 0.4s;
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
         }
+        
+        #btn-whatsapp{
+            font-size: 50px;
+            color: #34A853;
+        }
+        
+        #contenedor{
+            text-align: left;
+            color: white;
+            margin-bottom: 5%;
+        }
+        
+        #dispositivo-card{
+            background: red;
+        }
     </style>
 </head>
 
 <body>
 <header>
-    <img src="JC.png" class="logo-main" alt="Logo JC Tech">
+    <img src="img/JC.png" class="logo-main" alt="Logo JC Tech">
     <h1>Reparaciones de dispositivos móviles</h1>
 </header>
 
@@ -295,7 +311,8 @@
         <h2>Servicios Profesionales</h2>
         <p>Soluciones Garantizadas para dispositivos Android y iPhone con atención personalizada.</p>
         <p><i class="fa-solid fa-location-dot"></i> <strong>Ubicación:</strong> Itauguá, Departamento Central</p>
-        <a href="https://wa.me/595985600342" class="btn-whatsapp">📲 Contactar por WhatsApp</a>
+        <i id="btn-whatsapp" class="fa-brands fa-whatsapp"></i>
+        <a href="https://wa.me/595985600342" class="btn-whatsapp"> Contactar por WhatsApp</a>
     </section>
 
     <div class="services-grid">
@@ -314,7 +331,11 @@
     </div>
 
     <section class="gallery">
-        <h2><i class="fa-solid fa-briefcase"></i> Trabajos Realizados</h2>
+        <h2><i class="fa-solid fa-briefcase"></i>Trabajos Realizados</h2>
+        
+            <div id="contenedor">Cargando datos...</div>
+        
+        <h2><i class="fa-solid fa-camera"> Fotos </i></h2>
         <div class="gallery-grid" id="gallery"></div>
         <div style="text-align:center; margin-top:40px;">
             <a class="btn-drive" href="https://drive.google.com/drive/folders/1d4YrSLuY7FhhSxzJh6nZatXDnFUTU2cP" target="_blank">
@@ -328,7 +349,7 @@
     <div class="footer-content">
         <div class="footer-section">
             <div class="footer-logo-container">
-                <img src="JC.png" alt="JC Tech Logo">
+                <img src="img/JC.png" alt="JC Tech Logo">
             </div>
             <p style="color:#bdc3c7; line-height:1.6; font-size:0.95em;">
                 Servicio técnico garantizado y de calidad para los clientes del departamento central.
@@ -366,6 +387,57 @@ const galeria = document.getElementById("gallery");
 const viewer = document.getElementById("viewer");
 const viewerImg = document.getElementById("viewer-img");
 
+
+const sheetId = "1gVUDnUgJBEyno6fKtohwslFIxBWatQxXJFwxY-OhLgI";
+const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+
+fetch(url)
+    .then(res => res.text())
+    .then(texto => {
+        const json = JSON.parse(texto.substring(47, texto.length - 2));
+        const filas = json.table.rows;
+        const contenedor = document.getElementById('contenedor');
+        
+        contenedor.innerHTML = "";
+        
+        // Corregido: i < filas.length
+        for (let i = 1; i < filas.length; i++) {
+            const c = filas[i].c;
+            
+            // Verificamos que la celda de dispositivo tenga algo
+if (c[0] && c[0].v) {
+    // Extraemos las 4 columnas correctamente
+    const marca = c[0].v;                // Columna A
+    const modelo = c[1] ? c[1].v : "";   // Columna B
+    const problema = c[2] ? c[2].v : ""; // Columna C
+    const precio = c[3] ? c[3].v : "";   // Columna D (¡Esta te faltaba!)
+
+    const card = document.createElement('div');
+    card.className = 'dispositivo-card';
+    
+    card.style.marginBottom = "5%"
+    card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="badge" style="background:#00c853; color:white; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:bold;">REPARADO</span>
+        </div>
+        
+        <h3 style="margin:10px 0 2px 0; color:white; text-transform: lowercase;">${marca} ${modelo}</h3>
+        <p style="margin:0; color:#ccc; font-size:15px;"><strong>Falla:</strong> ${problema}</p>
+        
+        <div style="margin-top:10px; border-top:1px solid #333; padding-top:5px;">
+            <p style="margin:0; color:#00c853; font-weight:bold; font-size:16px;">${precio}</p>
+        </div>
+    `;
+    contenedor.appendChild(card);
+}
+
+        }
+    }) // <--- Aquí cerramos el bloque de datos
+    .catch(err => {
+        document.getElementById('contenedor').innerHTML = "Error al conectar con la lista.";
+        console.error(err);
+    });
+
 // URL de tu JSON en GitHub
 const jsonURL = "https://raw.githubusercontent.com/juan2008py/Base_juanTech/Main/Trabajos.json";
 
@@ -400,6 +472,7 @@ async function cargarImagenes() {
         }, observerOptions);
 
         document.querySelectorAll('#gallery img, .service-item').forEach(el => observer.observe(el));
+        
 
     } catch (error) {
         console.error("Error al cargar imágenes desde JSON:", error);
